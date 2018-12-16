@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+spring.boot.admin.client.url: http://localhost:${server.port}
+management.endpoint.metrics.enabled: true
+management.endpoints.web.exposure.include: "*"
+management.endpoint.prometheus.enabled: true
+management.metrics.export.prometheus.enabled: true
+
+
+udps :
+  serverConfigFilePath : classpath:server-config.json
+  sim.delay : 200
+  #serverConfigFilePath : /server-config.json
+
+logging:
+  level:
+    open.vm.socket : DEBUG
+#  path: ./
+#  file: tcp-cluster.log
+
+
+

@@ -1,0 +1,34 @@
+[
+  {
+    "type" : "tcp",
+    "name" : "TCP_4001",
+    "port" : 4001,
+    "binding" : "0.0.0.0",
+    "backlog" : 100,
+    "maxConnections" : 50
+  },
+  {
+    "type" : "tcp",
+    "name" : "TCP_4002",
+    "port" : 4002,
+    "binding" : "0.0.0.0",
+    "backlog" : 100,
+    "maxConnections" : 50
+  },
+  {
+    "type" : "tcp",
+    "name" : "TCP_4003",
+    "port" : 4003,
+    "binding" : "0.0.0.0",
+    "backlog" : 100,
+    "maxConnections" : 50
+  },
+  {
+    "type" : "tcp",
+    "name" : "TCP_4004",
+    "port" : 4004,
+    "binding" : "0.0.0.0",
+    "backlog" : 100,
+    "maxConnections" : 50
+  }
+]
