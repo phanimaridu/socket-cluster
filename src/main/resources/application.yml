@@ -1,7 +1,7 @@
 server:
   port: 8080
 
-spring.boot.admin.client.url: http://localhost:${server.port}
+
 management.endpoint.metrics.enabled: true
 management.endpoints.web.exposure.include: "*"
 management.endpoint.prometheus.enabled: true
@@ -15,7 +15,7 @@ udps :
 
 logging:
   level:
-    open.vm.socket : DEBUG
+    open.vm.socket : INFO
 #  path: ./
 #  file: tcp-cluster.log
 

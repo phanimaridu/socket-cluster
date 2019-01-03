@@ -1,6 +1,6 @@
 package open.vm.socket.cluster.service
 
-import open.vm.socket.cluster.core.SimpleClientSocketHandler
+import open.vm.socket.cluster.core.CharArrayLengthClientSocketHandler
 import open.vm.socket.cluster.core.TCPServer
 import open.vm.socket.cluster.repository.ServerConfigRepository
 import open.vm.socket.cluster.utils.Util.Companion.getOrThrowNotFound
@@ -20,7 +20,7 @@ class TCPInstanceService @Autowired constructor(
     fun createInstance(name : String){
         var serverConfig = serverConfigRepository.getServerConfig(name)
         throwIfExists("TCPServer", name, instanceMap[name])
-        var server = TCPServer(serverConfig.port, SimpleClientSocketHandler(name, delay), serverConfig.name, serverConfig.backlog, serverConfig.binding, serverConfig.maxConnections)
+        var server = TCPServer(serverConfig.port, CharArrayLengthClientSocketHandler(name, delay), serverConfig.name, serverConfig.backlog, serverConfig.binding, serverConfig.maxConnections)
         server.listen()
         synchronized(instanceMap){
             instanceMap.put(server.name, server)

@@ -10,7 +10,7 @@ class TCPClient(private val host: String, private val port: Int) {
 
     companion object {
         private val END_OF_TEXT_CHAR = '\u0003'
-        private val LENGTH_SIZE = 6
+        private val LENGTH_SIZE = 4
         private val LENGTH_PATTERN = "%0" + LENGTH_SIZE + "d"
         private val DEFAULT_CHARSET = Charset.forName("ISO-8859-1")
     }

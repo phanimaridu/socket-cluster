@@ -1,5 +1,5 @@
 ### Into
- - A Skeleton for Creating, Managing & Monitoring  multiple TCP Servers.
+ - A BASE App for Creating, Managing & Monitoring  multiple TCP Servers.
  - TCP Configuration file can be passed using application.yml's serverConfigFilePath property
  - A Sample config file provided in resources. By default application uses this.
  - By default each client connection is handeled by separate thread. 
@@ -26,8 +26,8 @@ curl -X GET ttp://localhost:8080/servers/metrics
 
 ### Monitoring TCP Cluster
 ~~~ sh
-# Use Spring boot Adming to monitor
-http://localhost:8080/
+# Use Actuator to monitor
+http://localhost:8080/actuator
 
 # Prometheus metrics are connfigured to actuator 
 # live connections per tcp instance can be obtained from udm..tcp.connections metric

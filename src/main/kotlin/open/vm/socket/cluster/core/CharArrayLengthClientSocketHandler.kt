@@ -7,14 +7,14 @@ import java.io.OutputStreamWriter
 import java.net.Socket
 import java.nio.charset.Charset
 
-class SimpleClientSocketHandler(val id : String, val delay : Long) : ClientSocketHandler {
+class CharArrayLengthClientSocketHandler(val id : String, val delay : Long) : ClientSocketHandler {
 
     companion object {
-        val HEADER_SIZE = 6;
+        val HEADER_SIZE = 4;
         val LENGTH_PATTERN = "%0${HEADER_SIZE}d"
         val DEFAULT_CHARSET = Charset.forName("ISO-8859-1")
         val END_OF_TEXT_CHAR = '\u0003'
-        private val LOGGER = LoggerFactory.getLogger(SimpleClientSocketHandler::class.java)
+        private val LOGGER = LoggerFactory.getLogger(CharArrayLengthClientSocketHandler::class.java)
     }
 
     override fun handle(clientSocket: Socket) {
