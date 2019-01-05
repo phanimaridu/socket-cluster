@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service
 import java.util.function.ToDoubleFunction
 
 @Service
+//FIXME : Move metrics to AOP
 class MetricsService @Autowired constructor(
         private val registry : MeterRegistry,
         private val serverConfigRepository: ServerConfigRepository,
