@@ -1,5 +1,8 @@
 package open.vm.socket.cluster.core
 
+import io.micrometer.core.annotation.Timed
+import io.micrometer.core.instrument.MeterRegistry
+import io.micrometer.core.instrument.Timer
 import org.slf4j.LoggerFactory
 import java.io.BufferedReader
 import java.io.IOException
@@ -10,6 +13,7 @@ import java.net.ServerSocket
 import java.net.Socket
 import java.time.Instant
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicBoolean
 
 //FIXME: Add maxConnections limit
@@ -17,16 +21,17 @@ import java.util.concurrent.atomic.AtomicBoolean
 open class TCPServer(
         val port: Int,
         val handler: ClientSocketHandler,
+        val meterRegistry : MeterRegistry,
         val name: String,
         val backlog: Int,
         val bindAddress: String,
         val maxConnections: Int
 ) {
 
-    constructor(port: Int, handler: ClientSocketHandler, name: String?,
+    constructor(port: Int, handler: ClientSocketHandler,meterRegistry : MeterRegistry, name: String?,
                 backlog: Int?, bindAddress: String?, maxConnections: Int?
     ) : this(
-            port, handler,
+            port, handler, meterRegistry,
             name ?: "TS_$port",
             backlog ?: 50,
             bindAddress ?: "localhost",
@@ -40,7 +45,7 @@ open class TCPServer(
 
     private val isLive = AtomicBoolean(false)
     private val serverSocket = ServerSocket(port, backlog, InetAddress.getByName(bindAddress))
-    val liveSocketMap = LinkedHashMap<String, Socket>(maxConnections)
+    val liveSocketMap = ConcurrentHashMap<String, Socket>(maxConnections)
 
 
     @Throws(IOException::class)
@@ -65,34 +70,34 @@ open class TCPServer(
     @Throws(IOException::class)
     fun shutdown() {
         isLive.set(false)
-        synchronized(liveSocketMap){
-            liveSocketMap.values.forEach{it.close()}
-        }
+        liveSocketMap.values.forEach{it.close()}
         serverSocket.close()
     }
 
-
+    @Timed
     @Throws(IOException::class)
     private fun handleClientSocket(clientSocket: Socket) {
         val timestamp = Instant.now().epochSecond
         val clientSocketId = "${name}_CP_${clientSocket.port}_TS_$timestamp"
 
-        val clintSocketWork = {
+        val clientSocketWork = {
+            var timer = Timer.start(meterRegistry)
             LOGGER.info("Created new client socket; clientSocketId=$clientSocketId")
             liveSocketMap[clientSocketId] = clientSocket
 
             try {
                 handler.handle(clientSocket)
             }catch (e: Exception) {
-                LOGGER.error("Error(${e.message}) while accessing clientSocket; clientSocketId=$clientSocketId", e)
+                LOGGER.warn("Error(${e.message}) while accessing clientSocket; clientSocketId=$clientSocketId", e)
             } finally {
                 clientSocket.close()
                 liveSocketMap.remove(clientSocketId)
                 LOGGER.info("Client socket closed; clientSocketId=$clientSocketId")
+                timer.stop(meterRegistry.timer("udm.tcp.connection.requests", "name", name));
             }
         }
 
-        val clientSocketThread = Thread(clintSocketWork)
+        val clientSocketThread = Thread(clientSocketWork)
         clientSocketThread.name = "${clientSocket.port}_THREAD"
         clientSocketThread.start()
     }

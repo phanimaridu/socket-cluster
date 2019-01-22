@@ -10,7 +10,7 @@ management.metrics.export.prometheus.enabled: true
 
 udps :
   serverConfigFilePath : classpath:server-config.json
-  sim.delay : 200
+  sim.delay : 100
   #serverConfigFilePath : /server-config.json
 
 logging:
