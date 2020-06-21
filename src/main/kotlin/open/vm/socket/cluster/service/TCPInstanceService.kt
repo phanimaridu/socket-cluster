@@ -1,7 +1,7 @@
 package open.vm.socket.cluster.service
 
 import io.micrometer.core.instrument.MeterRegistry
-import open.vm.socket.cluster.core.CharArrayLengthClientSocketHandler
+import open.vm.socket.cluster.handler.CharArrayLengthClientSocketHandler
 import open.vm.socket.cluster.core.TCPServer
 import open.vm.socket.cluster.repository.ServerConfigRepository
 import open.vm.socket.cluster.utils.Util.Companion.getOrThrowNotFound

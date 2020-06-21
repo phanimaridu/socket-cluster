@@ -5,7 +5,8 @@
     "port" : 4001,
     "binding" : "0.0.0.0",
     "backlog" : 100,
-    "maxConnections" : 50
+    "maxConnections" : 30,
+    "workers" : 30
   },
   {
     "type" : "tcp",
@@ -13,7 +14,8 @@
     "port" : 4002,
     "binding" : "0.0.0.0",
     "backlog" : 100,
-    "maxConnections" : 50
+    "maxConnections" : 30,
+    "workers" : 30
   },
   {
     "type" : "tcp",
@@ -21,7 +23,8 @@
     "port" : 4003,
     "binding" : "0.0.0.0",
     "backlog" : 100,
-    "maxConnections" : 50
+    "maxConnections" : 30,
+    "workers" : 30
   },
   {
     "type" : "tcp",
@@ -29,6 +32,7 @@
     "port" : 4004,
     "binding" : "0.0.0.0",
     "backlog" : 100,
-    "maxConnections" : 50
+    "maxConnections" : 30,
+    "workers" : 30
   }
 ]

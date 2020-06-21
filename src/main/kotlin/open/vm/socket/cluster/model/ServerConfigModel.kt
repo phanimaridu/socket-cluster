@@ -6,5 +6,6 @@ class ServerConfigModel(
         var port: Int,
         var binding: String?,
         var backlog: Int?,
-        var maxConnections: Int?) {
+        var maxConnections: Int?,
+        var workers: Int?) {
 }

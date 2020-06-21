@@ -1,5 +1,6 @@
-package open.vm.socket.cluster.core
+package open.vm.socket.cluster.handler
 
+import open.vm.socket.cluster.core.ClientSocketHandler
 import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.io.InputStreamReader
@@ -7,14 +8,14 @@ import java.io.OutputStreamWriter
 import java.net.Socket
 import java.nio.charset.Charset
 
-class CharArrayLengthClientSocketHandler(val id : String, val delay : Long) : ClientSocketHandler {
+class EchoClientSocketHandler(val id : String, val delay : Long) : ClientSocketHandler {
 
     companion object {
         val HEADER_SIZE = 4;
         val LENGTH_PATTERN = "%0${HEADER_SIZE}d"
         val DEFAULT_CHARSET = Charset.forName("ISO-8859-1")
         val END_OF_TEXT_CHAR = '\u0003'
-        private val LOGGER = LoggerFactory.getLogger(CharArrayLengthClientSocketHandler::class.java)
+        private val LOGGER = LoggerFactory.getLogger(EchoClientSocketHandler::class.java)
     }
 
     override fun handle(clientSocket: Socket) {
